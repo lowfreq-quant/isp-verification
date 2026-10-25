@@ -8,8 +8,8 @@ SIM_DIR = os.path.dirname(os.path.abspath(__file__))
 VERILOG_SRC_RGB2YUV = os.path.join(PROJECT_ROOT, "image_processing", "RGB_to_YUV", "RGB2YUV.v")
 VERILOG_SRC_TB = os.path.join(SIM_DIR, "tb_top.v")
 IVERILOG_BIN = os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin")
-IVERILOG = os.path.join(IVERILOG_BIN, "iverilog.exe")
-VVP = os.path.join(IVERILOG_BIN, "vvp.exe")
+IVERILOG = os.path.join(IVERILOG_BIN, "iverilog" + (".exe" if os.name == "nt" else ""))
+VVP = os.path.join(IVERILOG_BIN, "vvp" + (".exe" if os.name == "nt" else ""))
 
 import cocotb
 COCOTB_DIR = os.path.dirname(cocotb.__file__)
@@ -50,7 +50,7 @@ def run():
     print("\n=== Running cocotb simulation ===")
     env = os.environ.copy()
     # Add all relevant paths to PATH for DLL resolution
-    env["PATH"] = f"{IVERILOG_BIN};{COCOTB_LIBS};{PYTHON_DIR};{env['PATH']}"
+    env["PATH"] = os.pathsep.join([IVERILOG_BIN, COCOTB_LIBS, PYTHON_DIR, env['PATH']])
     env["MODULE"] = "test_rgb2yuv"
     env["COCOTB_TEST_MODULES"] = "test_rgb2yuv"
     env["TOPLEVEL"] = "tb_top"

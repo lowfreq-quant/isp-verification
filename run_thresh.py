@@ -14,8 +14,8 @@ import sys
 
 SIM_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.environ.get("RTL_ROOT", os.path.dirname(SIM_DIR))
-IVERILOG = os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "iverilog.exe")
-VVP = os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "vvp.exe")
+IVERILOG = os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "iverilog" + (".exe" if os.name == "nt" else ""))
+VVP = os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "vvp" + (".exe" if os.name == "nt" else ""))
 
 IP_SOURCES = [
     os.path.join(SIM_DIR, "ip", "behavioral_fifo.v"),

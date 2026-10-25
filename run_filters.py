@@ -5,7 +5,7 @@ from pathlib import Path
 from cocotb_tools.runner import get_runner
 
 # cocotb 2.x needs the iverilog binary on PATH (or IVERILOG_BIN env)
-os.environ["PATH"] = os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin") + ";" + os.environ.get("PATH", "")
+os.environ["PATH"] = os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin") + os.pathsep + os.environ.get("PATH", "")
 os.environ.setdefault("SIM", "icarus")
 
 ROOT = Path(__file__).resolve().parent

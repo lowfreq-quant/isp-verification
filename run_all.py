@@ -32,7 +32,7 @@ PROJECT_ROOT = os.environ.get("RTL_ROOT", os.path.dirname(SIM_DIR))
 def run(cmd, cwd=SIM_DIR, env=None):
     """Run a command and return (ok, stdout, stderr)."""
     merged_env = os.environ.copy()
-    merged_env["PATH"] = os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin") + ";" + merged_env.get("PATH", "")
+    merged_env["PATH"] = os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin") + os.pathsep + merged_env.get("PATH", "")
     if env:
         merged_env.update(env)
     result = subprocess.run(
@@ -120,14 +120,14 @@ def verify_rgb2yuv_independent():
     if os.path.exists(stale):
         os.remove(stale)
     ok_dump, out_dump, err_dump = run(
-        [os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "iverilog.exe"), "-o", "rgb2yuv_dump.vvp", "-g2012", "-s", "tb_rgb2yuv_dump",
+        [os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "iverilog" + (".exe" if os.name == "nt" else "")), "-o", "rgb2yuv_dump.vvp", "-g2012", "-s", "tb_rgb2yuv_dump",
          os.path.join(PROJECT_ROOT, "image_processing", "RGB_to_YUV", "RGB2YUV.v"),
          "tb_rgb_uv_dump.v"],
         cwd=SIM_DIR
     )
     if not ok_dump:
         return False, "RGB2YUV independent", "FAIL (iverilog compile failed)", out_dump, err_dump
-    run([os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "vvp.exe"), "rgb2yuv_dump.vvp"], cwd=SIM_DIR)
+    run([os.path.join(os.environ.get("IVERILOG_BIN", r"C:\iverilog\bin"), "vvp" + (".exe" if os.name == "nt" else "")), "rgb2yuv_dump.vvp"], cwd=SIM_DIR)
     ok, out, err = run_python("verify_rgb2yuv_independent.py")
     summary = "PASS" if ok and "PASS" in out else "FAIL"
     return ok, "RGB2YUV independent", summary, out, err

@@ -1,5 +1,7 @@
 # ISP Verification Suite
 
+[![regression](https://github.com/lowfreq-quant/isp-verification/actions/workflows/ci.yml/badge.svg)](https://github.com/lowfreq-quant/isp-verification/actions/workflows/ci.yml)
+
 Cycle-accurate RTL verification for the FPGA image-processing (ISP) project
 [ykqiu/Image-Processing](https://github.com/ykqiu/image-processing).
 
