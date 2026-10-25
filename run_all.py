@@ -157,6 +157,12 @@ def run_isp_chain():
     return ok, "ISP chain (RGB2YUV+LOG+filter+sobel+canny)", summary, out, err
 
 
+def run_sdram_loop():
+    ok, out, err = run_python("run_sdram_loop.py")
+    summary = "PASS" if ok and "Overall: PASS" in out else "FAIL"
+    return ok, "SDRAM replay chain (write->read, cycle-exact)", summary, out, err
+
+
 def main():
     os.chdir(SIM_DIR)
     print("=" * 70)
@@ -176,6 +182,7 @@ def main():
         run_thresh_path,
         run_pointops_cocotb,
         run_isp_chain,
+        run_sdram_loop,
     ]
 
     results = []

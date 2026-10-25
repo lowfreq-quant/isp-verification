@@ -32,8 +32,9 @@ whole run (`max_diff = 0`).
 | 10 | Sobel thresh -> Canny | `run_thresh.py` | threshold path + Canny `is_edge` |
 | 11 | Point ops | `run_pointops_cocotb.py` | LOG / EMBOSS / HISTOGRAM / HISTOGRAM_EQ |
 | 12 | ISP chain | `run_isp_chain.py` | RGB2YUV -> LOG -> Gaussian/median -> Sobel -> Canny |
+| 13 | SDRAM replay chain | `run_sdram_loop.py` | 1024-word write -> read round trip + cycle-exact trace (22,725 cycles) |
 
-`python run_all.py` runs all 12 flows and prints a PASS/FAIL summary.
+`python run_all.py` runs all 13 flows and prints a PASS/FAIL summary.
 
 ## Requirements
 
@@ -102,10 +103,11 @@ docs/HANDOFF.md  verification history and handoff notes
 
 ## Status / known gaps
 
-- **12/12 flows pass**; see `docs/HANDOFF.md` for the full verification history
+- **13/13 flows pass**; see `docs/HANDOFF.md` for the full verification history
   and the remaining open items.
-- The SDRAM replay chain (`sdram_top` / `fifo_ctrl` / `sdram_ctrl`) is **not
-  covered yet** — work in progress.
+- The SDRAM replay chain (`sdram_top` / `fifo_ctrl` / `sdram_ctrl`) is covered
+  by `run_sdram_loop.py`: a 1024-word round trip plus a cycle-exact trace of
+  the whole chain against the Python replica (22,725 cycles, `max_diff = 0`).
 - `HISTOGRAM` / `HISTOGRAM_EQ` frame-boundary behaviour depends on the VGA
   blanking protocol; the details are documented in `docs/HANDOFF.md`.
 

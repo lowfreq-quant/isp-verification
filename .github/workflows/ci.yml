@@ -31,7 +31,7 @@ jobs:
       - name: Checkout RTL under test
         run: git clone --depth 1 https://github.com/lowfreq-quant/image-processing rtl
 
-      - name: Run 12-flow regression
+      - name: Run 13-flow regression
         env:
           RTL_ROOT: ${{ github.workspace }}/rtl
           IVERILOG_BIN: /usr/bin
