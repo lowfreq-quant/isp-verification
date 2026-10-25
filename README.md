@@ -46,9 +46,9 @@ whole run (`max_diff = 0`).
   python -m pip install cocotb numpy
   ```
 
-- Tested on Windows with Icarus Verilog 12.0, Python 3.13 and cocotb 2.0.1.
-  On Linux/macOS the executable names are currently Windows-oriented; set
-  `IVERILOG_BIN` and adjust the `.exe` suffix if needed.
+- Tested on Windows (Icarus Verilog 12.0, Python 3.13, cocotb 2.0.1) and on
+  Ubuntu via GitHub Actions (iverilog 12 from apt, Python 3.12, cocotb 2.0.1).
+  Set `IVERILOG_BIN` if iverilog is not in the default location.
 
 ## Quick start
 
