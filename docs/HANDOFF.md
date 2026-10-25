@@ -1,5 +1,30 @@
 # 交接文档：ISP RTL 仿真验证工作
 
+## ✅ 2026-10-25（第八轮）：SDRAM 回放链路周期精确验证通过 + GitHub Actions CI 接入
+
+### 1. SDRAM 回放链路（此前唯一未覆盖的数据通路）
+
+- 新增 `sim/tb_sdram_loop_dump.v`：1024 字写→读回环（wr_fifo → sdram_top → rd_fifo），带全链路逐拍 dump（FSM `state/state_cnt`、命令总线 `cmd/addr/bank`、`wr_ack/rd_ack/wr_en`、fifo_ctrl 的 `wr_req/rd_req` 与读写地址、`rdata`）。
+- 新增 `sim/verify_sdram_loop.py`：周期精确 Python 副本（sdram_ctrl FSM + fifo_ctrl + 两个 FWFT FIFO 封装 + 最小 SDRAM 响应模型）。
+- **结果：22725 拍逐拍 max_diff = 0；1024 字回放 0 错。**
+- 关键对齐点（供后续参考）：
+  1. FWFT FIFO 的计数按 `(wr_ptr-rd_ptr)+dout_valid`（wrapper 行为）；prefetch/read 必须用**拍前**指针（NBA 语义），否则末尾错 1~2 拍；
+  2. rd_fifo 的写使能要用**拍前** `rd_ack`（与 RTL 采样一致）；
+  3. `rdata` dump 用十进制（`zzzz` 表示 z），避免 `%h` 补零差异导致假 mismatch。
+- 已接入 `run_all.py` 第 13 条流程（`sim/run_sdram_loop.py`）。
+
+### 2. GitHub Actions CI
+
+- `isp-verification` 独立仓库新增 `.github/workflows/ci.yml`：ubuntu-latest + iverilog(apt) + Python 3.12 + cocotb 2.0.1，push/PR 自动跑全部 13 条流程，首次运行即通过。
+- 脚本路径可移植：`IVERILOG_BIN`（默认 `C:\iverilog\bin`）、`RTL_ROOT`（默认父目录）、按平台解析 `.exe`、PATH 用 `os.pathsep`。
+
+### 3. 仓库
+
+- 独立 MIT 验证仓库：https://github.com/lowfreq-quant/isp-verification
+- 二次开发 fork：https://github.com/lowfreq-quant/image-processing
+
+---
+
 ## ✅ 2026-10-02（第七轮）：point-ops 周期精确验证收口（旧 WIP 关闭）+ 全量回归基线复核
 
 本轮**未改动任何 RTL**，纯验证层收口 + 文档订正。上一轮遗留的唯一 WIP（point-ops 四模块
