@@ -18,7 +18,7 @@ COCOTB_LIBS = os.path.join(COCOTB_DIR, "libs")
 OUTPUT = os.path.join(SIM_DIR, "sim.vvp")
 
 # Fix: create hon313.dll -> python313.dll symlink/copy if needed
-PYTHON_DIR = os.path.dirname(sys.executable)  # C:\Users\ty\anaconda3
+PYTHON_DIR = os.path.dirname(sys.executable)  # directory containing python3xx.dll
 HON313 = os.path.join(COCOTB_LIBS, "hon313.dll")
 PY313 = os.path.join(PYTHON_DIR, "python313.dll")
 if not os.path.exists(HON313) and os.path.exists(PY313):
