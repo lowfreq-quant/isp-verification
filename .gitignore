@@ -1,0 +1,23 @@
+# simulation artifacts
+*.vcd
+*.fst
+*.vvp
+*.vcd.gz
+results.xml
+build_*/
+sim_build/
+output/
+__pycache__/
+*.pyc
+
+# generated test data / dumps
+*_dump.txt
+*.npz
+test_image.hex
+test_image.gradient.hex
+ip/log_lut.hex
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
